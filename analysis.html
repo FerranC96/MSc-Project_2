@@ -28,7 +28,7 @@
 							<!-- Content -->
 								<section>
 									<header class="main">
-										<h1>5.- Visualisation and clustering</h1>
+										<h1 id="vis">5.- Visualisation and clustering</h1>
 									</header>
 
 									<hr class="major" />
@@ -107,13 +107,18 @@
 										<p>Figure 12: .</p>
 									</div>
 									<p>Comparing the SC3 consensus plots in <a href="#consensus_k">Figure 11</a> with those using the UMAP+k-means clusters (see <a href="#consensus_umap">Figure 13</a>) 
-										shows the same phenomena observed on <a href="#spaces_k">Figure 12</a>, in where the higher k is the more convergent both methodologies will be.</p>
+										shows the same phenomena observed on <a href="#spaces_k">Figure 12</a>, in where the higher k is the more convergent both methodologies will be, represented in <a href="#consensus_umap">Figure 13</a> as more overlapping with the UMAP+kmeans clusters.</p>
 									<div class="box">
-										<span class="image fit"><img src="images/spaces_k.png" id="consensus_umap" /></span>
+										<span class="image fit"><img src="images/consensus_umap.png" id="consensus_umap" /></span>
 										<p>Figure 13: .</p>
 									</div>
-									<p></p>	
-
+									<p>Finally, standalone k-means clustering was performed on the reduced dimensions calculated in <a href="#vis">Visualisation</a>.
+										When plotted on their DR space the clusters obtained did appear to divide the data more evenly.
+										A comparison with k=4 of the SC3 and UMAP+k-means clusters is shown plotted on the UMAP dimensions in <a href="#interact_umap">Figure 14</a>.</p>	
+									<div class="box">
+										<span class="image fit"><iframe width="900" height="800" frameborder="0" scrolling="no" src="//plot.ly/~FerranC96/17.embed"></iframe></span>
+										<p>Figure 14: .</p>
+									</div>
 									<hr class="major" />
 									<h2 id="bio">5.3- Biological Analysis</h2>
 
