@@ -2,7 +2,7 @@
 
 <html>
 	<head>
-		<title>MScProject2 - Ferran Cardoso</title>
+		<title>Unsupervised clustering on scRNAseq cardiac stem cell data</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="assets/css/main.css" />
@@ -17,79 +17,97 @@
 						<div class="inner">
 
 							<!-- Header -->
-								<header id="header">
-									<a href="index.html" class="logo"><strong>Unsupervised clustering on scRNAseq cardiac stem cell data</strong> by Ferran Cardoso</a>
-									<ul class="icons">
-										<li><a href="https://github.com/FerranC96/MSc-Project_2" class="icon fa-github"><span class="label">Github</span></a></li>
-										<li><a href="mailto:ferran.cardoso-rodriguez18@imperial.ac.uk" class="icon fa-envelope-o"><span class="label">Email</span></a></li>
-									</ul>
-								</header>
+							<header id="header">
+								<a href="index.html" class="logo"><strong>Project 2: Data analysis</strong> by Ferran Cardoso</a>
+								<ul class="icons">
+									<li><a href="https://github.com/FerranC96/MSc-Project_2" class="icon fa-github"><span class="label">Github</span></a></li>
+									<li><a href="mailto:ferran.cardoso-rodriguez18@imperial.ac.uk" class="icon fa-envelope-o"><span class="label">Email</span></a></li>
+								</ul>
+							</header>
 
 							<!-- Content -->
 								<section>
 									<header class="main">
-										<h1>Pre-processing</h1>
+										<h1>5.- Visualisation and clustering</h1>
 									</header>
 
 									<hr class="major" />
-                                    <h2 id="qc">QC and filtering</h2>
-                                    <p>To ensure that technical effects and other artefacts introduced during the sequencing do not distort our analyses, low-quality cells must be removed from the dataset in a filtering-based Quality Control (QC) approach.</p>
-                                    <p>Before starting with the QC however, 40997 rows where removed from the data as they represented transcripts without expression in any of the cells (that is, a total count sum of 0).
-                                        With the aim to facilitate readability, the remaining row names where substituted by the gene symbol associated to their respective transcript <em>Ensbml</em> identifiers (with the ID appended at the end in case of entries sharing the same symbol). This annotation was performed using the <em>biomaRt</em> package (<a href="#">Drost and Paszkowski, 2017</a>). </p>
-                                    <p><em>scater</em> provided the quality control metrics used to filter the data, which was performed first using <a href="#cell">cell-based metrics</a> and then moving onto <a href="#gene">gene-based filtering</a>.</p>
-                                    <h3 id="cell">Cell-based metrics</h3>
-                                    <p>During cell-based QC, cells are removed based on total number of reads detected (also known as library size), how many unique genes they map to (expressed features), and the ratio of ERCC spike-ins. The removal of outliers and cells with extremely low library sizes or total number of detected genes is essential for a posterior gene-based QC and robust overall QC.</p>
-                                    <p>As shown on <a href="#cell_filtering">Figure 4:A</a> cells with library sizes below 0.2e6 counts where discarded from the data set, while in <a href="#cell_filtering">Figure 4:B</a> we have the total number of detected genes and the chosen threshold at 2300 unique features per cell. 
-                                        The range of numbers seen on both plots indicates that the sequencing was performed a moderately low depth and absence of any major deviations from the normal distribution in <a href="#cell_filtering">Figure 4:B</a> might suggest that during the initial pre-processing the data could have already been filtered before so as to select the relevant population I was to study.</p>
-                                    <div class="box">
-                                            <span class="image fit"><img src="images/cell_filtering.png" id="cell_filtering" /></span>
-                                            <p>Figure 4: XXXXX. A) fdfdfd. B) gfffgf.</p>
-                                            </div>
-                                    <p>The last cellular metric to be accounted for is the proportion of ERCC spike-ins over the total reads mapped to a cell, as higher ratios of ERCC might be an indicative of cellular lysis or RNA degradation 
-                                        (another use for the spike-ins can be to infer the average cell size, but since our dataset contains a quite homogenous population this use was not taken advantage of).  
-                                        Thus, a standard 20% cut out ratio was selected, removing any cells that had more than 20% spike-in content.</p>
-                                    <p>In most reference pipelines, the presence of mitochondrial genes is also generally used as a quality measure of cells, since high concentrations of mitochondrial markers are associated with damaged cells. 
-                                        In our case however, we have to keep in mind that our data is from cardiac tissue, and as cardiomyocytes present extremely high concentrations of mitochondria, so they would skew an analysis based on this metric.</p>
-                                    <p>Finally, an outlier detection was also performed using as a threshold median absolute deviation of 3 units for the metrics shown above.
-                                        This automatic filtering however was quite lenient and only selected 8 cells to be filtered, whereas using the more stringent manual methods a total of 29 cells (out of the original 416) where removed.
-                                        A Venn diagram comparing the performance of both approaches is shown on <a href="#venn">Figure 5</a>, and on <a href="#man_auto">Figure 6</a> the cells are plotted on a PCA graph, with the colour and shape of each cell representing the final filtering criteria for the manual and automatic approaches respectively.</p>
+                                    <h2 id="dr">5.1- Dimensionality Reduction</h2>
+                                    <p>Data visualisation is an essential, yet sometimes overlooked, step of data analysis.  In our case Dimensionality Reduction (DR) techniques will prove useful both for visualisation and clustering purposes, as scRNAseq data contains a huge number of dimensions.
+										DR will reduce the dimensions of the data to facilitate its manipulation and feeding into downstream clustering algorithms. </p>
+                                    <p>In this section the different DR approaches taken are shown, with a brief description of each method used, its strength and weaknesses, and plots for the final DR spaces they produce. </p>
+									
+									<h3 id="pca">Principal Component Analysis</h3>                                    
                                     <div class="row">
                                             <div class="col-6 col-12-small">
-                                                <div class="box">
-                                                <span class="image fit"><img src="images/VennDiag_CellFiltering.png" id="venn" /></span>
-                                                <p>Figure 5: Venn diagram. .</p>
-                                                </div>
+												<p>Principal Component Analysis, or PCA, was the first approach taken. It is a transformation-based approach that calculates new dimensions or components to try and capture the maximum amount of variance possible in the original high-dimensional space.</p>
+												<p>Making use of the technical variances calculated in the <a href="pre-process.html">previous section</a> we can remove that random noise by performing PCA and <em>scran</em>’s denoisePCA function. </p>
+												<p>A plot of our cells in the PCA space is shown on <a href="#pca_plot">Figure 8</a>. It is immediately noticeable that no apparent division of cells appears, with all cells clustered together as one mass, 
+													and that PCA does not render very informative results for the first two components explain only 3% and 1% of the total variance. The reasons this might be happening will be discussed in the <a href="discussion.html">following section</a>,
+													but PCA has already been described as being a less than ideal DR approach for sparse scRNAseq data.</p>
                                             </div>
                                             <div class="col-6 col-12-small">
                                                 <div class="box">
-                                                <span class="image fit"><img src="images/ManualAuto_CellFiltering.png" id="man_auto" /></span>
-                                                <p>Figure 6: Comparison of manual and automatic filtering approaches.  .</p>
+                                                <span class="image fit"><img src="images/dr_pca.png" id="pca_plot" /></span>
+                                                <p>Figure 8: .</p>
                                                 </div>
                                             </div>
-                                    </div>
-                                    <h3 id="gene">Gene-based metrics</h3>
-                                    <p>Once low-quality cells have been discarded, we can start the gene-based filtering. 
-                                        Analysis of the most highly expressed genes was performed and was used to check if the results were those expected biologically, with ribosomal and mitochondrial associated genes being those with the highest expressions.</p>
-                                    <p>In our data the top 50 genes account for over 40% of the total reads, and as can be shown on <a href="#highest">Figure 7</a>, at the top of the list we have a gene corresponding to the 18S ribosomal RNA, with some mitochondrial genes as well some constitutively expressed proteins. 
-                                        A high number of spike-ins amongst this list might suggest that the spike-in concentration added during the experiment might be excessive and in our case there does seem to be an excess (with half of the top 8 corresponding to ERCC spikes).  
-                                        That such a small number of genes account for almost half of the counts is possibly yet another indicative that the sequencing was not performed at high depths.</p>                                   
-                                    <div class="box">
-                                        <span class="image fit"><iframe width="1000" height="600" frameborder="0" scrolling="no" src="https://plot.ly/~FerranC96/15.embed?logo=true" id="highest"></iframe></span>
-                                        <p>Figure 4: XXXXX. A) fdfdfd. B) gfffgf.</p>
-                                    </div>
-                                    <p>Finally I filtered out genes with fewer than 5 reads and that were expressed in less than 2 different cells, a threshold commonly used with the sequencing depths on my data and that eliminates genes that might correspond to amplification artefacts.
-                                        While the approach taken might have been on the harsher side (with a risk of losing data from minor subpopulations), more lenient approaches resulted in far too sparse expression matrices that difficulted clustering techniques.</p>
-                                    <p>At the end of this process, the dataset had been reduced to just 48689 rows out of the 72782 transcripts with detectable expression. This QCed dataset can be downloaded from the button below.</p>
-                                    <p align="center"><a href="#" class="button icon fa-download">Download filtered data</a></p
-                                    
-                                    <hr class="major" />
-                                    <h2 id="norm">Normalisation</h2>
+									</div>
+									
+                                    <h3 id="tsne">t-Distributed Stochastic Neighbour Embedding</h3>                                    
+                                    <div class="row">
+                                            <div class="col-6 col-12-small">
+												<p>t-Distributed Stochastic Neighbour Embedding, also known as t-SNE, is a newer DR approach described in <a href="#">Maaten and Hinton, 2008</a>. It maps high dimensional data to 2 dimensions by performing random walks on neighbourhood graphs and can deal better results in more diverse and higher dimensional cell populations.</p>
+												<p>To make use of the denoising performed above we calculate its reduced dimensions from the PCA data. A stochastic process by definition, the resulting graphs all showed different topologies even if the perplexity value was kept constant.</p>
+												<p>On <a href="#tsne_plot">Figure 9</a> one such plot is given with a perplexity value of 15 and no random seed predefined. I settled at perplexity=15 since that seemed to produce the most consistent topologies while still avoiding the tendency to crowd points together at the centre of the map.</p>
+                                            </div>
+                                            <div class="col-6 col-12-small">
+                                                <div class="box">
+                                                <span class="image fit"><img src="images/dr_tsne.png" id="tsne_plot" /></span>
+                                                <p>Figure 9: .</p>
+                                                </div>
+                                            </div>
+									</div>
+									
+									<h3 id="umap">Uniform Manifold Approximation and Projection</h3>                                    
+                                    <div class="row">
+                                            <div class="col-6 col-12-small">
+												<p>Uniform Manifold Approximation and Projection (UMAP) is DR technique that can be used in similar situations as t-SNE. Published last year on <a href="#">McInnes et al., 2018</a> it works based on manifold modelling via fuzzy topologies and subsequent embedding on a lower-dimension projection.
+													Its main advantages over t-SNE are that it is less computationally intense while better preserving global structure of the data at comparable details of local neighbour relations.</p>
+												<p>UMAP plots obtained from our data presented more consistent overall topologies than their t-SNE counterparts, while adjusting to the clusters found better than PCA.  A UMAP plot can be seen on <a href="#umap_plot">Figure 10</a>.</p>
+												
+                                            </div>
+                                            <div class="col-6 col-12-small">
+                                                <div class="box">
+                                                <span class="image fit"><img src="images/dr_umap.png" id="umap_plot" /></span>
+                                                <p>Figure 10: .</p>
+                                                </div>
+                                            </div>
+									</div>
+																		
+									<hr class="major" />
+                                    <h2 id="clust">5.2- Unsupervised clustering</h2>
                                     <p>As different cells have different capture efficiencies and the sequencing depth is not completely homogenous throughout the sample, normalisation methods are necessary to palliate these cell-specific biases. 
                                         To that end I performed a CPM-based (Counts Per Million) method from <em>scran</em> that has been specifically tailored to deal with the sparse expression matrices characteristic of scRNAseq experiments. </p>
                                     <p>Before computing the size factors necessary for the normalisation, I performed a preliminary clustering step (based on hierarchical clustering) to palliate the consequences of the DE assumption central to <em>scran</em>’s normalisation method. 
                                         This increases robustness towards heterogeneity, and now size factors for both endogenous genes and spike-ins can be calculated before normalising the data and storing it as log-transformed normalised counts.</p>
                                     <p>Another confounding effect that remains to be removed are the technical effects, which can alter the observed expression values. To model this technical noise the ERCC spike in set was used, as its expression should remain relatively constant across cells
-                                        and thus if there is no biological variability, any variance observed should then be caused by technical effects. This modelling consisted of variance fitting and was performed using the <em>trendVar()</em> and <em>decomposeVar()</em> functions from <em>scran</em>>.</p>
+										and thus if there is no biological variability, any variance observed should then be caused by technical effects. This modelling consisted of variance fitting and was performed using the <em>trendVar()</em> and <em>decomposeVar()</em> functions from <em>scran</em>>.</p>
+									
+									<h3>t-SNE + k-means</h3>
+									
+									<h3>UMAP + k-means</h3>
+
+									<h3>SC3</h3>
+									
+									<h3>Comparison</h3>
+
+									<hr class="major" />
+									<h2 id="bio">5.3- Biological Analysis</h2>
+
+
+									
+									
       
 									<hr class="major" />
 									<p align="right"><a href="analysis.html" class="button primary">Next</a></p>
@@ -104,33 +122,39 @@
 					<div class="inner">
 
 						<!-- Menu -->
-							<nav id="menu">
+						<nav id="menu">
 								<header class="major">
 									<h2>Menu</h2>
 								</header>
 								<ul>
-									<li><a href="index.html">Homepage</a></li>
-									<li><a href="background.html">Background</a></li>
-									<li><a href="aim.html">Aim and Initial Data</a></li>
-									<li><a href="#">Analysis: Pipeline</a></li>
+									<li><a href="index.html">Abstract</a></li>
+									<li><a href="background.html">1.- Background</a></li>
+									<li><a href="aim.html">2.- Aims and Initial Data</a></li>
+									<li><a href="intro.html">3.- Introduction and pipeline</a></li>
 									<li>
-										<span class="opener">Pre-processing</span>
+										<span class="opener">4.- Pre-processing</span>
 										<ul>
-											<li><a href="#">QC and filtering</a></li>
-											<li><a href="#">Normalisation</a></li>
-											<li><a href="#">Feugiat Veroeros</a></li>
+											<li><a href="pre-process.html">4.1- QC and filtering</a></li>
+											<li><a href="pre-process.html#norm">4.2- Normalisation</a></li>
 										</ul>
 									</li>
 									<li>
-										<span class="opener">Visualisation and Clustering</span>
+										<span class="opener">5.- Visualisation and Clustering</span>
 										<ul>
-											<li><a href="#">Dimensionality Reduction</a></li>
-											<li><a href="#">Unsupervised clustering</a></li>
-											<li><a href="#">Tempus Magna</a></li>
-											<li><a href="#">Feugiat Veroeros</a></li>
+											<li><a href="analysis.html">5.1- Dimensionality Reduction</a></li>
+											<li><a href="analysis.html#clust">5.2- Unsupervised clustering</a></li>
+											<li><a href="analysis.html#bio">5.3- Biological analysis</a></li>
 										</ul>
 									</li>
-									<li><a href="#">Biological Analysis</a></li>
+									<li>
+										<span class="opener">6.-Discussion</span>
+										<ul>
+											<li><a href="discussion.html">6.1- Discussion</a></li>
+											<li><a href="discussion.html#conclussion">6.2- Conclusions</a></li>
+											<li><a href="discussion.html#future">6.3- Future work</a></li>
+										</ul>
+									</li>
+									<li><a href="refs.html">7.-References</a></li>
 									<li><a href="elements.html">Elements</a></li>
 								</ul>
 							</nav>
@@ -160,23 +184,18 @@
 							</section> -->
 
 						<!-- Section -->
-							<section>
-								<header class="major">
-									<h2>Get in touch</h2>
-								</header>
-								<p>Sed varius enim lorem ullamcorper dolore aliquam aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin sed aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
-								<ul class="contact">
-									<li class="fa-envelope-o"><a href="#">information@untitled.tld</a></li>
-									<li class="fa-phone">(000) 000-0000</li>
-									<li class="fa-home">1234 Somewhere Road #8254<br />
-									Nashville, TN 00000-0000</li>
-								</ul>
-							</section>
+						<section>
+							<header class="major">
+								<h2>Acknowledgements</h2>
+							</header>
+							<p>I would like to thank Prof. Mauricio Barahona and Dr. Michela Noseda for their supervision and guidance throughout the project.<br />Special thanks as well to Andrea Massaia, PhD, for all his support and scientific insights that made this project possible. </p>
 
-						<!-- Footer -->
-							<footer id="footer">
-								<p class="copyright">&copy; Ferran Cardoso. Long live FOSS!. <br /> Design: <a href="https://html5up.net">HTML5 UP</a>.</p>
-							</footer>
+						</section>
+
+					<!-- Footer -->
+						<footer id="footer">
+							<p class="copyright">&copy; Ferran Cardoso.<br />Project 2: Data Analysis. <br />MSc in Bioinformatics and Theoretical Systems Biology.<br />Imperial College London. <br /> Design: <a href="https://html5up.net">HTML5 UP</a>.</p>
+						</footer>
 
 					</div>
 				</div>
