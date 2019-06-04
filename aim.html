@@ -28,47 +28,32 @@
 							<!-- Content -->
 							<section>
 									<header class="main">
-										<h1>Aim and initial data</h1>
+										<h1>Aims and initial data</h1>
 									</header>
 
 									<hr class="major" />
 
-									<h2>Setting the scene</h2>
-									<p>Before the XXIst century, the heart was generally regarded as an organ lacking a stem cell population in adults. By the 2000s the existence of this population had already become widely accepted amongst the scientific community and the first reports discussing adult stem cell mediated cardiac regeneration appeared on the literature, with publications reporting cardiac progenitor stem cells as c-kit positive and with regenerative properties in infarcted myocardium (<a href="#">Beltrami et al., 2003</a>; <a href="#">Orlic et al., 2001</a>).</p>
-									<p>However, at present time, there is still no consensus on their role in cardiac regeneration and the mechanism through which it is accomplished, with some authors even still challenging the notion of cardiac stem cells altogether (<a href="#">Kretzschmar et al., 2018</a>).</p>
+									<h2>Aim</h2>
+									<p>The aim of this project is to characterise subpopulations within the PDGFRα positive adult cardiac murine cells via unsupervised clustering techniques, in an effort to gain insights into what might drive their cardiogenic potential.</p>
+									<p>To this end clustering techniques allow us to identify putative subpopulations within our dataset. Subsequent Differential Expression assays tell us which, if any, clusters are characterised by marker genes, wich will then be used for a biological assessment.</p>
 
 									<hr class="major" />
-
-									<h2>Cardiac Progenitor Stem Cells</h2>
-									<div class="row">
-											<div class="col-6 col-12-small">
-												<p>Dr. Michela’s group is centred on studying those Cardiac Progenitor stem Cells, working with both human and mouse samples. In <a href="#heart_diagram">Figure 1</a> the major types of cells in the heart are shown, with CPCs on the top left corner.</p>
-												<p>In their murine model, a characterisation of the Cardiac Progenitor stem Cells (CPC) revealed a total of four markers that, with partial overlapping, define the population and can be readily identified in flow cytometry sorting assays (<a href="#">Noseda et al., 2015</a>).</p>
-												<p>These four markers are shown on <a href="#csc_markers">Figure 2</a> and listed below</p>
-												<ul> 
-														<li>Stem cell antigen-1 (Sca1): Canonical stem cell marker, it has been associated with myocardial renewal in adult hearts (<a href="#">Uchida et al., 2013, p. 1</a>).</li>
-														<li>Side population phenotype (SP): Found in both developing and adult hearts, SP is thought to be a surrogate marker for multipotency (<a href="#">Challen and Little, 2006</a>).</li>
-														<li>Platelet-derived growth factor (PDGFRα): Associated with cell growth and differentiation, PDGFRα+ve cells show the most cardiogenic and clonogenic properties in <a href="#">Noseda et al., 2015</a>.</li>
-														<li>PECAM-1/CD31: PECAM-1, also known as CD31, is an endothelial marker that was found linked with endothelial fates in the cardiac progenitor stem cell population (as opposed to PDGFRα).</li>
-												</ul>
-											</div>
-											<div class="col-6 col-12-small">
-												<div class="box">
-												<span class="image fit"><img src="images/Heart.png" id="heart_diagram" /></span>
-												<p>Figure 1: Diagram showing the different types of tissue in an adult heart. Note that we are interested in the Cardiac Progenitor stem Cell population (CPC), specially those with high cardiogenic potential and thus PDGFRα+ve. Modified from <a href="#">Noseda et al., 2015</a>.</p>
-												</div>
-											</div></div>
-									
-									<p>As will be shwown on <a href="aim.html">the following section</a>, this project revolves around the PDGFRα+ve population.</p>
-									<div class="box">
 									<div class="row">
 										<div class="col-6 col-12-small">
-											<span class="image fit"><img src="images/CardiacSCpops.png" id="csc_markers" /></span>
+											
+											<h2>Initial Data</h2>
+											
 										</div>
 										<div class="col-6 col-12-small">
-											<p>Figure 2: Schematic representation of the four markers associated with the CSC population and their overlapping. Data from this project represents the PDGFRα+ve population. SP: Side population phenotype.<br />Based on <a href="#">Noseda et al., 2015</a>.</p>
-										</div>	
+											<p align="right"><a href="#" class="button icon fa-download">Download raw data</a></p>
+											</div>
 									</div>
+									<p>The data for the project was, as introduced in the previous section, acquired by performing single cell RNA sequencing (scRNAseq) on the PDGFRα positive population that had been selected via FACS. After the full length scRNAseq with Smart-Seq2 (<a href="#">Picelli et al., 2013</a>) the data was initiallly pre-processed and aligned to the murine transcriptome by Dr. Andrea Massaia at Noseda’s group. Further details on how the data was obtained and handled can be found on <a href="#">Massaia et al., 2018</a>.</p>
+									<p>Raw data, which can be downloaded from the button above, consists of an expression matrix with columns representing cells and rows being <em>Ensembl</em> transcript identifiers, with 113.779 rows and 416 columns in total. Spike-in data from the commercial mix ERCC (External RNA Controls Consortium) was added during the sequencing to use as a control in the pre-processing steps outlined in the <a href="intro.html">following section</a>. </p>
+									<p>While the expression matrix can be loaded into R directly as a data frame, we converted it into a Single Cell Experiment object (SCE) using its homonymous package in R (<a href="#">Lun A, Risso D, 2019</a>), which has been specifically designed to handle, store and retrieve single cell experiment data. Its usage, in addition to the quality control and visualisation  package <em>scater</em> (<a href="#">McCarthy et al., 2017</a>) will form the backbone of the analysis presented here.
+										As the SCE object was being created, the ERCC spike in information was stored into the SCE object to be used during quality control (see <a href="pre-process.html#qc">QC and filtering</a>) as method to detect poor quality cells. In our data we find that, from a total of 113779 transcript entries, 92 are in fact labelled as ERCC spike-ins. More information on the use of ERCC for quality control purposes can be found on section XXXX.</p>
+									<hr class="major" />
+									<p align="right"><a href="intro.html" class="button primary">Next</a></p>
 
 								</section>
 

@@ -1,0 +1,152 @@
+<!DOCTYPE HTML>
+
+<html>
+	<head>
+		<title>MScProject2 - Ferran Cardoso</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+	</head>
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Main -->
+					<div id="main">
+						<div class="inner">
+
+							<!-- Header -->
+								<header id="header">
+									<a href="index.html" class="logo"><strong>Unsupervised clustering on scRNAseq cardiac stem cell data</strong> by Ferran Cardoso</a>
+									<ul class="icons">
+										<li><a href="https://github.com/FerranC96/MSc-Project_2" class="icon fa-github"><span class="label">Github</span></a></li>
+										<li><a href="mailto:ferran.cardoso-rodriguez18@imperial.ac.uk" class="icon fa-envelope-o"><span class="label">Email</span></a></li>
+									</ul>
+								</header>
+
+							<!-- Content -->
+								<section>
+									<header class="main">
+										<h1>Introduction to the analysis</h1>
+									</header>
+
+									<hr class="major" />
+									<p>To fulfil the project’s aim a pipeline was devised based on the course <a href="https://github.com/hemberg-lab/scRNA.seq.course">Analysis of single cell RNA-seq data</a> written by the authors of some the packages used throughout the project.</p>
+                                    <p>On <a href="#pipeline">Figure 3</a> a schematic representation of the pipeline is shown, with a level for each step performed during the analysis and the 2 main stages (Pre-processing and Visualisation/Clustering) outlined on the background. Below the main steps are listed the order they were performed:</p>
+                                    <ul>
+                                    <ol>     
+                                        <li>Quality control and filtering to eliminate outliers and reduce the dimensions of the expression matrix by discarding both cells and transcript IDs.</li>
+                                        <li>Normalisation and denoising using ERCC spike-ins.</li>
+                                        <li>Dimensionality reduction via Principal Component Analysis (PCA), t-Distributed Stochastic Neighbor Embedding (t-SNE) and Uniform Manifold Approximation and Projection (UMAP).</li>
+                                        <li>Unsupervised clustering using k-means in the above dimensions and within the SC3 package for R (<a href="#">Kiselev et al., 2017</a>).</li>
+                                        <li>Biological analysis of genes found to be differentially expressed in the clusters</li>
+                                    </ol>
+                                    </ul>
+                                    <p>It is important to note that several methodologies where assessed in some of the steps outlined above and their comparisons can be found on their respective sections.</p>
+                                    <div class="box">
+                                            <span class="image fit"><img src="images/Outline.png" id="pipeline" /></span>
+                                            <p>Figure 3: Analysis pipeline. Consisting of a stage for pre-processing and another encompasing visualisation and clustering, the different steps performed in this analysis are showed from top (starting with the initial data) to bottom (ending with the biological analysis). <em>scran</em>, R package; CPM, Counts per million; PCA, Principal Component Analysis; tSNE, t-Distributed Stochastic Neighbor Embedding; UMAP, Uniform Manifold Approximation and Projection; SC3, R package; DE, Differential expression.</p>
+                                            </div>
+									
+									<hr class="major" />
+									<p align="right"><a href="pre-process.html" class="button primary">Next</a></p>
+
+								</section>
+
+						</div>
+					</div>
+
+				<!-- Sidebar -->
+				<div id="sidebar">
+					<div class="inner">
+
+						<!-- Menu -->
+							<nav id="menu">
+								<header class="major">
+									<h2>Menu</h2>
+								</header>
+								<ul>
+									<li><a href="index.html">Homepage</a></li>
+									<li><a href="background.html">Background</a></li>
+									<li><a href="aim.html">Aim and Initial Data</a></li>
+									<li><a href="#">Analysis: Pipeline</a></li>
+									<li>
+										<span class="opener">Pre-processing</span>
+										<ul>
+											<li><a href="#">QC and filtering</a></li>
+											<li><a href="#">Normalisation</a></li>
+											<li><a href="#">Feugiat Veroeros</a></li>
+										</ul>
+									</li>
+									<li>
+										<span class="opener">Visualisation and Clustering</span>
+										<ul>
+											<li><a href="#">Dimensionality Reduction</a></li>
+											<li><a href="#">Unsupervised clustering</a></li>
+											<li><a href="#">Tempus Magna</a></li>
+											<li><a href="#">Feugiat Veroeros</a></li>
+										</ul>
+									</li>
+									<li><a href="#">Biological Analysis</a></li>
+									<li><a href="elements.html">Elements</a></li>
+								</ul>
+							</nav>
+
+						<!-- Section -->
+							<!-- <section>
+								<header class="major">
+									<h2>Ante interdum</h2>
+								</header>
+								<div class="mini-posts">
+									<article>
+										<a href="#" class="image"><img src="images/pic07.jpg" alt="" /></a>
+										<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore aliquam.</p>
+									</article>
+									<article>
+										<a href="#" class="image"><img src="images/pic08.jpg" alt="" /></a>
+										<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore aliquam.</p>
+									</article>
+									<article>
+										<a href="#" class="image"><img src="images/pic09.jpg" alt="" /></a>
+										<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore aliquam.</p>
+									</article>
+								</div>
+								<ul class="actions">
+									<li><a href="#" class="button">More</a></li>
+								</ul>
+							</section> -->
+
+						<!-- Section -->
+							<section>
+								<header class="major">
+									<h2>Get in touch</h2>
+								</header>
+								<p>Sed varius enim lorem ullamcorper dolore aliquam aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin sed aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
+								<ul class="contact">
+									<li class="fa-envelope-o"><a href="#">information@untitled.tld</a></li>
+									<li class="fa-phone">(000) 000-0000</li>
+									<li class="fa-home">1234 Somewhere Road #8254<br />
+									Nashville, TN 00000-0000</li>
+								</ul>
+							</section>
+
+						<!-- Footer -->
+							<footer id="footer">
+								<p class="copyright">&copy; Ferran Cardoso. Long live FOSS!. <br /> Design: <a href="https://html5up.net">HTML5 UP</a>.</p>
+							</footer>
+
+					</div>
+				</div>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
