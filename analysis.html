@@ -87,20 +87,32 @@
 																		
 									<hr class="major" />
                                     <h2 id="clust">5.2- Unsupervised clustering</h2>
-                                    <p>As different cells have different capture efficiencies and the sequencing depth is not completely homogenous throughout the sample, normalisation methods are necessary to palliate these cell-specific biases. 
-                                        To that end I performed a CPM-based (Counts Per Million) method from <em>scran</em> that has been specifically tailored to deal with the sparse expression matrices characteristic of scRNAseq experiments. </p>
-                                    <p>Before computing the size factors necessary for the normalisation, I performed a preliminary clustering step (based on hierarchical clustering) to palliate the consequences of the DE assumption central to <em>scran</em>’s normalisation method. 
-                                        This increases robustness towards heterogeneity, and now size factors for both endogenous genes and spike-ins can be calculated before normalising the data and storing it as log-transformed normalised counts.</p>
-                                    <p>Another confounding effect that remains to be removed are the technical effects, which can alter the observed expression values. To model this technical noise the ERCC spike in set was used, as its expression should remain relatively constant across cells
-										and thus if there is no biological variability, any variance observed should then be caused by technical effects. This modelling consisted of variance fitting and was performed using the <em>trendVar()</em> and <em>decomposeVar()</em> functions from <em>scran</em>>.</p>
+									<p>Unsupervised clustering are machine learning approaches that aim to infer new information from unlabelled data by grouping the data and finding hidden patterns. In our case, as introduced in <a href="aim.html">section 2</a>,
+										our aim is to identify and characterise putative subpopulations in the PDGFRα+ve cells.</p>
+                                    <p>Clustering was performed using the SC3 package (CITATION), an unsupervised clustering package for R specific for single cell data that works using a modified k-means algorithm.
+										K-means clustering works on the basis that observations (cells in this case) belong to one of the k clusters with the nearest mean. </p>
+                                    <p>To get an initial estimate on the number of clusters in our data we relied on SC3, which estimates a total number of 9 clusters. 
+										However, since our population should be quite homogenous and with SC3 being prone to overestimate the number of clusters, further analysis where performed with a range of k from 2 to 9. 
+										On <a href="#consensus_k">Figure 11</a> consensus plots obtained from k=3,4,7,9 are shown.</p>
 									
-									<h3>t-SNE + k-means</h3>
-									
-									<h3>UMAP + k-means</h3>
-
-									<h3>SC3</h3>
-									
-									<h3>Comparison</h3>
+									<div class="box">
+                                        <span class="image fit"><img src="images/consensus_difK.png" id="consensus_k" /></span>
+                                        <p>Figure 11: .</p>
+                                    </div>
+									<p>From that range of four different cluster numbers we chose to work with k=4 as an in-between compromise of a high enough silhouette and biological feasibility (this will be discussed further in <a href="discussion.html">section 6</a>).
+										The clusters obtained from SC3 can then be mapped on the t-SNE and UMAP spaces to visualize how well defined they appear.
+										For comparison sake, on <a href="#spaces_k">Figure 12</a> both k=4 and k=9 are plotted on t-SNE and UMAP spaces.</p>
+									<div class="box">
+										<span class="image fit"><img src="images/spaces_k.png" id="spaces_k" /></span>
+										<p>Figure 12: .</p>
+									</div>
+									<p>Comparing the SC3 consensus plots in <a href="#consensus_k">Figure 11</a> with those using the UMAP+k-means clusters (see <a href="#consensus_umap">Figure 13</a>) 
+										shows the same phenomena observed on <a href="#spaces_k">Figure 12</a>, in where the higher k is the more convergent both methodologies will be.</p>
+									<div class="box">
+										<span class="image fit"><img src="images/spaces_k.png" id="consensus_umap" /></span>
+										<p>Figure 13: .</p>
+									</div>
+									<p></p>	
 
 									<hr class="major" />
 									<h2 id="bio">5.3- Biological Analysis</h2>
