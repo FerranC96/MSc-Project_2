@@ -87,12 +87,12 @@
 																		
 									<hr class="major" />
                                     <h2 id="clust">5.2- Unsupervised clustering</h2>
-									<p>Unsupervised clustering are machine learning approaches that aim to infer new information from unlabelled data by grouping the data and finding hidden patterns. In our case, as introduced in <a href="aim.html">section 2</a>,
+									<p>Unsupervised clustering are machine learning approaches that aim to infer new information from unlabelled data by grouping the data and finding hidden patterns. In our case, as introduced in <a href="aim.html">Section 2</a>,
 										our aim is to identify and characterise putative subpopulations in the PDGFRα+ve cells.</p>
-                                    <p>Clustering was performed using the SC3 package (CITATION), an unsupervised clustering package for R specific for single cell data that works using a modified k-means algorithm.
-										K-means clustering works on the basis that observations (cells in this case) belong to one of the k clusters with the nearest mean. </p>
+                                    <p>Clustering was performed using the SC3 package (<a href="#">Kiselev et al., 2017</a>), an unsupervised clustering package for R specific for single cell data that combines several clustering algorithms, among them a modified k-means,
+										to combine them in a consensus step. K-means clustering works on the basis that observations (cells in this case) belong to one of the k clusters with the nearest mean.</p>
                                     <p>To get an initial estimate on the number of clusters in our data we relied on SC3, which estimates a total number of 9 clusters. 
-										However, since our population should be quite homogenous and with SC3 being prone to overestimate the number of clusters, further analysis where performed with a range of k from 2 to 9. 
+										However, since our population should be quite homogenous and taking into account the fact that SC3 has a tendency to overestimate k, further analysis where performed with a range of k from 2 to 9. 
 										On <a href="#consensus_k">Figure 11</a> consensus plots obtained from k=3,4,7,9 are shown.</p>
 									
 									<div class="box">
@@ -106,28 +106,44 @@
 										<span class="image fit"><img src="images/spaces_k.png" id="spaces_k" /></span>
 										<p>Figure 12: .</p>
 									</div>
-									<p>Comparing the SC3 consensus plots in <a href="#consensus_k">Figure 11</a> with those using the UMAP+k-means clusters (see <a href="#consensus_umap">Figure 13</a>) 
-										shows the same phenomena observed on <a href="#spaces_k">Figure 12</a>, in where the higher k is the more convergent both methodologies will be, represented in <a href="#consensus_umap">Figure 13</a> as more overlapping with the UMAP+kmeans clusters.</p>
-									<div class="box">
-										<span class="image fit"><img src="images/consensus_umap.png" id="consensus_umap" /></span>
-										<p>Figure 13: .</p>
-									</div>
+									<p>From a first look, it appears that both visualisations perform at a similar level; the spaces do not really separate the clusters at low k but the results improve when using a higher number of clusters.
+										Taking this into account, during our testing UMAP still proved to be more consistent due to the inherent stochasticity of t-SNE. In <a href="discussion.html">Section 6</a> this topic will be further discussed.</p>
+									
 									<p>Finally, standalone k-means clustering was performed on the reduced dimensions calculated in <a href="#vis">Visualisation</a>.
 										When plotted on their DR space the clusters obtained did appear to divide the data more evenly.
-										A comparison with k=4 of the SC3 and UMAP+k-means clusters is shown plotted on the UMAP dimensions in <a href="#interact_umap">Figure 14</a>.</p>	
+										A comparison with k=4 of the SC3 and UMAP+k-means clusters is shown plotted on the UMAP dimensions in <a href="#interact_umap">Figure 13</a>.
+										In there, it is apparent how the UMAP space, albeit showing the most promise, is still not ideal for visualising the SC3 clusters</p>	
 									<div class="box">
-										<span class="image fit"><iframe width="900" height="800" frameborder="0" scrolling="no" src="//plot.ly/~FerranC96/17.embed"></iframe></span>
+										<span class="image fit"><iframe width="1000" height="800" frameborder="0" scrolling="no" src="//plot.ly/~FerranC96/17.embed"></iframe></span>
+										<p>Figure 13: .</p>
+									</div>
+									<p>Comparing the SC3 consensus plots in <a href="#consensus_k">Figure 11</a> with those using the UMAP+k-means clusters (see <a href="#consensus_umap">Figure 14</a>) 
+										shows the same phenomena observed on <a href="#spaces_k">Figure 12</a>, in where the higher k is the more convergent both methodologies will be, represented in <a href="#consensus_umap">Figure 14</a> as more overlapping with the UMAP+kmeans clusters.</p>
+									<div class="box">
+										<span class="image fit"><img src="images/consensus_umap.png" id="consensus_umap" /></span>
 										<p>Figure 14: .</p>
 									</div>
 									<hr class="major" />
 									<h2 id="bio">5.3- Biological Analysis</h2>
-
-
-									
-									
-      
+									<p>Part of SC3’s pipeline is a marker plot, in which a DE assay is performed between the clusters. Then the genes found to be differentially expressed are highlighted and the clusters they are associated to are shown.
+										In our case an area under the ROC curve (AROC) of 0.85 and a p-value of 0.01 were chosen as parameters for a marker analysis on SC3’s k=4 clusters. </p>
+									<p>The resulting plot can be seen in <a href="#markers_plot">Figure 15</a>, where of the four clusters statistically significant DE was found for a total of 5 genes, three corresponding to cluster 1 and the other two to cluster 4.
+										As will be discussed in detail in the <a href="discussion.html">following section</a>, some of the markers found can be associated with cellular differentiation and proliferation.</p>
+									<p>The following is a list of the markers associated with their respective clusters:</p>
+									<ul> 
+										<li>Cluster 1: Shows increased expression for Gm12918 (a pseudogene), Serpinf1 (serine peptidase inhibitor F1) and Rps14 (ribosomal protein S14). A similar, albeit subtler, expression pattern can be detected in cluster 2.</li>
+										<li>Cluster 4: Shows increased expression of AY036118 and 2 transcripts representing Dcaf1 (DDB1 and CUL4 associated factor 1).  AY036118 also appears to be highly expressed in a sizeable minority of cells in cluster 3.</li>
+									</ul>				
+									<div class="box">
+										<span class="image fit"><img src="images/markers_k4_aroc85_pval01.png" id="markers_plot" /></iframe></span>
+										<p>Figure 15: .</p>
+									</div>
+									<p><a href= "http://www.informatics.jax.org/marker/MGI:108080" >Serpinf1</a> has already been described as expressed in the cardiovascular system. It has been associated with inhibiting proliferation in epithelial cells and promoting neurogenesis.
+										<br />A previous study also showed its responsible for antiangiogenic effects. <a href= "http://www.informatics.jax.org/marker/MGI:98107">Rps14</a> is a ribosomal protein found majorly in hematopoietic cells that has been associated in erythrocyte differentiation and is also expressed in mitochondria.</p>
+									<p><a href="http://www.informatics.jax.org/marker/MGI:2158419">AY036118</a> has previously been annotated with GO terms for cell population proliferation. It has been reported as expressed in the heart in cell proliferation (Tulin et al., 2002) and embryonic development (Ujhelly et al., 2015) experiments.
+										<br /><a href="http://www.informatics.jax.org/marker/MGI:2445220">Dcaf1</a>, more known in humans as a part of the CRL4 complex that plays a central role in HIV infection, it has been associated in mice with B cell differentiation and with cell-cycle and telomerase regulation.</p>
 									<hr class="major" />
-									<p align="right"><a href="analysis.html" class="button primary">Next</a></p>
+									<p align="right"><a href="discussion.html" class="button primary">Next</a></p>
 
 								</section>
 
@@ -172,10 +188,9 @@
 										</ul>
 									</li>
 									<li><a href="refs.html">7.-References</a></li>
-									<li><a href="elements.html">Elements</a></li>
+									<li><a href="supplementary.html">Supplementary Material</a></li>
 								</ul>
 							</nav>
-
 						<!-- Section -->
 							<!-- <section>
 								<header class="major">
