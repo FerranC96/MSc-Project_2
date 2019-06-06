@@ -50,10 +50,10 @@
 									</div>
 									<p>The data for the project was, as introduced in the previous section, acquired by performing single cell RNA sequencing (scRNAseq) on the PDGFRα positive population that had been selected via FACS. After the full length scRNAseq with Smart-Seq2 (<a href="#">Picelli et al., 2013</a>) the data was initiallly pre-processed and aligned to the murine transcriptome by Dr. Andrea Massaia at Noseda’s group. Further details on how the data was obtained and handled can be found on <a href="#">Massaia et al., 2018</a>.</p>
 									<p>Raw data, which can be downloaded from the button above, consists of an expression matrix with columns representing cells and rows being <em>Ensembl</em> transcript identifiers, with 113.779 rows and 416 columns in total. Spike-in data from the commercial mix ERCC (External RNA Controls Consortium) was added during the sequencing to use as a control in the pre-processing steps outlined in the <a href="intro.html">following section</a>. </p>
-									<p>While the expression matrix can be loaded into R directly as a data frame, we converted it into a Single Cell Experiment object (SCE) using its homonymous package in R (<a href="#">Lun A, Risso D, 2019</a>), which has been specifically designed to handle, store and retrieve single cell experiment data. Its usage, in addition to the quality control and visualisation  package <em>scater</em> (<a href="#">McCarthy et al., 2017</a>) will form the backbone of the analysis presented here.
-										As the SCE object was being created, the ERCC spike in information was stored into the SCE object to be used during quality control (see <a href="pre-process.html#qc">QC and filtering</a>) as method to detect poor quality cells. In our data we find that, from a total of 113779 transcript entries, 92 are in fact labelled as ERCC spike-ins. More information on the use of ERCC for quality control purposes can be found on section XXXX.</p>
+									<p>While the expression matrix can be loaded into R directly as a data frame, we converted it into a Single Cell Experiment object (SCE) using its homonymous package in R (<a href="#">Lun A, Risso D, 2019</a>), which has been specifically designed to handle, store and retrieve single cell experiment data. Its usage, in addition to the quality control and visualisation  package <code>scater</code> (<a href="#">McCarthy et al., 2017</a>) will form the backbone of the analysis presented here.
+										As the SCE object was being created, the ERCC spike in information was stored into the SCE object to be used during quality control (see <a href="pre-process.html#qc">QC and filtering</a>) as method to detect poor quality cells. In our data we find that, from a total of 113779 transcript entries, 92 are in fact labelled as ERCC spike-ins. More information on the use of ERCC for quality control purposes can be found on <a href="pre-process.html">section 4</a>.</p>
 									<hr class="major" />
-									<p align="right"><a href="intro.html" class="button primary">Next</a></p>
+									<p align="center"><a href="background.html" class="button primary">Back</a> <a href="#" class="button icon fa-arrow-circle-up">Go to top</a> <a href="intro.html" class="button primary">Next</a></p>
 
 								</section>
 
@@ -67,10 +67,11 @@
 							<!-- Menu -->
 							<nav id="menu">
 									<header class="major">
-										<h2>Menu</h2>
+										<h2>Outline</h2>
 									</header>
 									<ul>
-										<li><a href="index.html">Abstract</a></li>
+										<li><a href="index.html"><i class="fa fa-home" aria-hidden="true"></i>
+											Home</a></li>
 										<li><a href="background.html">1.- Background</a></li>
 										<li><a href="aim.html">2.- Aims and Initial Data</a></li>
 										<li><a href="intro.html">3.- Introduction and pipeline</a></li>
@@ -127,18 +128,18 @@
 								</section> -->
 
 							<!-- Section -->
-							<section>
-								<header class="major">
-									<h2>Acknowledgements</h2>
-								</header>
-								<p>I would like to thank Prof. Mauricio Barahona and Dr. Michela Noseda for their supervision and guidance throughout the project.<br />Special thanks as well to Andrea Massaia, PhD, for all his support and scientific insights that made this project possible. </p>
-	
-							</section>
+								<section>
+									<header class="major">
+										<h2>Acknowledgements</h2>
+									</header>
+									<p>I would like to thank Prof. Mauricio Barahona and Dr. Michela Noseda for their supervision and guidance throughout the project.<br />Special thanks as well to Andrea Massaia, PhD, for all his support and scientific insights that made this project possible. </p>
+		
+								</section>
 
-						<!-- Footer -->
-							<footer id="footer">
-								<p class="copyright">&copy; Ferran Cardoso.<br />Project 2: Data Analysis. <br />MSc in Bioinformatics and Theoretical Systems Biology.<br />Imperial College London. <br /> Design: <a href="https://html5up.net">HTML5 UP</a>.</p>
-							</footer>
+							<!-- Footer -->
+								<footer id="footer">
+									<p class="copyright">&copy; Ferran Cardoso | CID: 01602345<br />Project 2: Data Analysis. <br />MSc in Bioinformatics and Theoretical Systems Biology. Imperial College London. <br /> Design: <a href="https://html5up.net">HTML5 UP</a>.</p>
+								</footer>
 
 						</div>
 					</div>

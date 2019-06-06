@@ -32,8 +32,26 @@
 											<h1>Unsupervised clustering on scRNAseq cardiac stem cell data</h1>
 											<p>Supervised by Prof. Mauricio Barahona. <br /> Co-supervised by Dr. Michela Noseda.</p>
 										</header>
+										<div class="row">
+												<div class="col-6 col-12-small">
+													<h2>Abstract</h2>
+												</div>
+												<div class="col-6 col-12-small">
+													<button id="myBtn">Lay summary</button>
+												</div>	
+											</div>  
 										<p>Cardiac Progenitor stem Cells (CPC) are a hotly debated topic in medicine and molecular biology, since their putative regenerative potential might prove very useful for therapies against ageing and infarcted hearts. In this project I perform an analysis of single cell transcriptomic datasets containing PDGFRα+ve cells, a marker described to characterise the CPC population, using the SingleCellExperiment and scran packages in R.</p>
 										<p>Dimensionality reduction techniques and subsequent unsupervised clustering on the reduced spaces where applied and seem to indicate a total of 4 clusters in our dataset. Finally, characterisation of the clusters found in the PDGFRα+ve cells via Differential Expression assays gives us some preliminary insights on 3 of those clusters, with some clusters more associated with proliferative markers while others might show more muscle-like traits.</p>
+										
+										<!-- The Modal -->
+										<div id="myModal" class="modal">
+
+											<!-- Modal content -->
+											<div class="modal-content">
+											<span class="close">&times;</span>
+											<p>Some text in the Modal..</p>
+											</div>
+										</div>
 										<!-- <ul class="actions">
 											<li><a href="#" class="button big">Learn More</a></li>
 										</ul> -->
@@ -41,7 +59,9 @@
 									<span class="image object">
 										<img src="images/heart.jpg" alt="" />
 									</span>
+									
 								</section>
+								<p align="center"><a href="background.html" class="button primary">Get started!</a></p>
 
 							<!-- Section -->
 								<!-- <section>
@@ -161,10 +181,11 @@
 							<!-- Menu -->
 								<nav id="menu">
 									<header class="major">
-										<h2>Menu</h2>
+										<h2>Outline</h2>
 									</header>
 									<ul>
-										<li><a href="index.html">Abstract</a></li>
+										<li><a href="index.html"><i class="fa fa-home" aria-hidden="true"></i>
+											Home</a></li>
 										<li><a href="background.html">1.- Background</a></li>
 										<li><a href="aim.html">2.- Aims and Initial Data</a></li>
 										<li><a href="intro.html">3.- Introduction and pipeline</a></li>
@@ -231,7 +252,7 @@
 
 							<!-- Footer -->
 								<footer id="footer">
-									<p class="copyright">&copy; Ferran Cardoso.<br />Project 2: Data Analysis. <br />MSc in Bioinformatics and Theoretical Systems Biology.<br />Imperial College London. <br /> Design: <a href="https://html5up.net">HTML5 UP</a>.</p>
+									<p class="copyright">&copy; Ferran Cardoso | CID: 01602345<br />Project 2: Data Analysis. <br />MSc in Bioinformatics and Theoretical Systems Biology. Imperial College London. <br /> Design: <a href="https://html5up.net">HTML5 UP</a>.</p>
 								</footer>
 
 						</div>
