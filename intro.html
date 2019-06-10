@@ -32,14 +32,14 @@
 									</header>
 
 									<hr class="major" />
-									<p>To fulfil the project’s aim a pipeline was devised based on the course <a href="https://github.com/hemberg-lab/scRNA.seq.course">Analysis of single cell RNA-seq data</a> written by the authors of some the packages used throughout the project.</p>
+									<p>To fulfil the project’s aim a pipeline was devised based on the course <a href="https://github.com/hemberg-lab/scRNA.seq.course">Analysis of single cell RNA-seq data</a> written by the authors of some the packages used throughout the project (<code>SC3</code> and <code>scater</code>).</p>
                                     <p>On <a href="#pipeline">Figure 3</a> a schematic representation of the pipeline is shown, with a level for each step performed during the analysis and the 2 main stages (Pre-processing and Visualisation/Clustering) outlined on the background. Below the main steps are listed the order they were performed:</p>
                                     <ul>
                                     <ol>     
                                         <li>Quality control and filtering to eliminate outliers and reduce the dimensions of the expression matrix by discarding both cells and transcript IDs.</li>
                                         <li>Normalisation and denoising using <em>ERCC</em> spike-ins.</li>
                                         <li>Dimensionality reduction via Principal Component Analysis (PCA), t-Distributed Stochastic Neighbor Embedding (t-SNE) and Uniform Manifold Approximation and Projection (UMAP).</li>
-                                        <li>Unsupervised clustering using <em>k-means</em> in the above dimensions and within the <code>SC3</code> package for R (<a href="#">Kiselev et al., 2017</a>).</li>
+                                        <li>Unsupervised clustering using <em>k-means</em> in the above dimensions and within the <code>SC3</code> package for R (<a href="refs.html#5">Kiselev et al., 2017</a>).</li>
                                         <li>Biological analysis of genes found to be differentially expressed in the clusters</li>
                                     </ol>
                                     </ul>

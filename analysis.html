@@ -35,13 +35,13 @@
                                     <h2 id="dr">5.1- Dimensionality Reduction</h2>
                                     <p>Data visualisation is an essential, yet sometimes overlooked, step of data analysis.  In our case Dimensionality Reduction (DR) techniques will prove useful both for visualisation and clustering purposes, as scRNAseq data contains a huge number of dimensions.
 										DR will reduce the dimensions of the data to facilitate its manipulation and feeding into downstream clustering algorithms. </p>
-                                    <p>In this section the different DR approaches taken are shown, with a brief description of each method used, its strength and weaknesses, and plots for the final DR spaces they produce. </p>
+                                    <p>In this section the different DR approaches taken are shown, with a brief description of each method used, its strengths and weaknesses, and plots for the final DR spaces they produce. </p>
 									
 									<h3 id="pca">Principal Component Analysis</h3>                                    
                                     <div class="row">
                                             <div class="col-6 col-12-small">
 												<p>Principal Component Analysis, or PCA, was the first approach taken. It is a transformation-based approach that calculates new dimensions or components to try and capture the maximum amount of variance possible in the original high-dimensional space.</p>
-												<p>Making use of the technical variances calculated in the <a href="pre-process.html">previous section</a> we can remove that random noise by performing PCA and <em>scran</em>’s denoisePCA function. </p>
+												<p>Making use of the technical variances calculated in the <a href="pre-process.html">previous section</a> we can remove that random noise by performing PCA and <code>scran</code>’s <code>denoisePCA()</code> function. </p>
 												<p>A plot of our cells in the PCA space is shown on <a href="#pca_plot">Figure 8</a>. It is immediately noticeable that no apparent division of cells appears, with all cells clustered together as one mass, 
 													and that PCA does not render very informative results for the first two components explain only 3% and 1% of the total variance. The reasons this might be happening will be discussed in the <a href="discussion.html">following section</a>,
 													but PCA has already been described as being a less than ideal DR approach for sparse scRNAseq data.</p>
@@ -49,7 +49,7 @@
                                             <div class="col-6 col-12-small">
                                                 <div class="box">
                                                 <span class="image fit"><img src="images/dr_pca.png" id="pca_plot" /></span>
-                                                <p>Figure 8: .</p>
+                                                <p>Figure 8: PCA of the first two dimensions, constructed from normalized log-expression values of genes after removing principal components corresponding to technical noise. Each point represents a cell.</p>
                                                 </div>
                                             </div>
 									</div>
@@ -57,14 +57,14 @@
                                     <h3 id="tsne">t-Distributed Stochastic Neighbour Embedding</h3>                                    
                                     <div class="row">
                                             <div class="col-6 col-12-small">
-												<p>t-Distributed Stochastic Neighbour Embedding, also known as t-SNE, is a newer DR approach described in <a href="#">Maaten and Hinton, 2008</a>. It maps high dimensional data to 2 dimensions by performing random walks on neighbourhood graphs and can deal better results in more diverse and higher dimensional cell populations.</p>
+												<p>t-Distributed Stochastic Neighbour Embedding, also known as t-SNE, is a newer DR approach described in <a href="refs.html#8">Maaten and Hinton, 2008</a>. It maps high dimensional data to 2 dimensions by performing random walks on neighbourhood graphs and can deal better results in more diverse and higher dimensional cell populations.</p>
 												<p>To make use of the denoising performed above we calculate its reduced dimensions from the PCA data. A stochastic process by definition, the resulting graphs all showed different topologies even if the perplexity value was kept constant.</p>
 												<p>On <a href="#tsne_plot">Figure 9</a> one such plot is given with a perplexity value of 15 and no random seed predefined. I settled at perplexity=15 since that seemed to produce the most consistent topologies while still avoiding the tendency to crowd points together at the centre of the map.</p>
                                             </div>
                                             <div class="col-6 col-12-small">
                                                 <div class="box">
                                                 <span class="image fit"><img src="images/dr_tsne.png" id="tsne_plot" /></span>
-                                                <p>Figure 9: .</p>
+                                                <p>Figure 9: t-SNE plot constructed from the denoised PCs, with a perplexity of 15. Each point represents a cell, with the axis showing their coordinates along the t-SNE space.</p>
                                                 </div>
                                             </div>
 									</div>
@@ -72,15 +72,15 @@
 									<h3 id="umap">Uniform Manifold Approximation and Projection</h3>                                    
                                     <div class="row">
                                             <div class="col-6 col-12-small">
-												<p>Uniform Manifold Approximation and Projection (UMAP) is DR technique that can be used in similar situations as t-SNE. Published last year on <a href="#">McInnes et al., 2018</a> it works based on manifold modelling via fuzzy topologies and subsequent embedding on a lower-dimension projection.
+												<p>Uniform Manifold Approximation and Projection (UMAP) is DR technique that can be used in similar situations as t-SNE. Published last year on <a href="refs.html#11">McInnes et al., 2018</a> it works based on manifold modelling via fuzzy topologies and subsequent embedding on a lower-dimension projection.
 													Its main advantages over t-SNE are that it is less computationally intense while better preserving global structure of the data at comparable details of local neighbour relations.</p>
-												<p>UMAP plots obtained from our data presented more consistent overall topologies than their t-SNE counterparts, while adjusting to the clusters found better than PCA.  A UMAP plot can be seen on <a href="#umap_plot">Figure 10</a>.</p>
+												<p>UMAP plots obtained from our data (<a href="#umap_plot">Figure 10</a>) presented more consistent overall topologies than their t-SNE counterparts, while adjusting to the clusters found better than PCA.</p>
 												
                                             </div>
                                             <div class="col-6 col-12-small">
                                                 <div class="box">
                                                 <span class="image fit"><img src="images/dr_umap.png" id="umap_plot" /></span>
-                                                <p>Figure 10: .</p>
+                                                <p>Figure 10: UMAP plot of our data. Each point represents a cell, with the axis showing their coordinates along the UMAP space.</p>
                                                 </div>
                                             </div>
 									</div>
@@ -89,46 +89,51 @@
                                     <h2 id="clust">5.2- Unsupervised clustering</h2>
 									<p>Unsupervised clustering are machine learning approaches that aim to infer new information from unlabelled data by grouping the data and finding hidden patterns. In our case, as introduced in <a href="aim.html">Section 2</a>,
 										our aim is to identify and characterise putative subpopulations in the PDGFRα+ve cells.</p>
-                                    <p>Clustering was performed using the SC3 package (<a href="#">Kiselev et al., 2017</a>), an unsupervised clustering package for R specific for single cell data that combines several clustering algorithms, among them a modified k-means,
-										to combine them in a consensus step. K-means clustering works on the basis that observations (cells in this case) belong to one of the k clusters with the nearest mean.</p>
-                                    <p>To get an initial estimate on the number of clusters in our data we relied on SC3, which estimates a total number of 9 clusters. 
-										However, since our population should be quite homogenous and taking into account the fact that SC3 has a tendency to overestimate k, further analysis where performed with a range of k from 2 to 9. 
-										On <a href="#consensus_k">Figure 11</a> consensus plots obtained from k=3,4,7,9 are shown.</p>
+                                    <p>Clustering was performed using the <code>SC3</code> package (<a href="refs.html#5">Kiselev et al., 2017</a>), an unsupervised clustering package for R specific for single cell data that combines several clustering algorithms, among them a modified <em>k-means</em>,
+										to combine them in a consensus step. <em>K-means</em> clustering works on the basis that observations (cells in this case) belong to one of the <em>k</em> clusters with the nearest mean. 
+									The final <code>SCE</code> object containing all data used during clustering can be found on <a href="supplementary.html">Supplementary Material</a>.</p>
+                                    <p>To get an initial estimate on the number of clusters in our data we relied on <code>SC3</code>, which estimates a total number of 9 clusters. 
+										However, since our population should be quite homogenous and taking into account the fact that <code>SC3</code> has a tendency to overestimate <em>k</em>, further analysis where performed with a range of <em>k</em> from 2 to 9. 
+										On <a href="#consensus_k">Figure 11</a> consensus plots obtained from <em>k</em>=3,4,7,9 are shown.</p>
+									<p>A consensus plot is a square matrix representing the similarity of cells by averaging the clustering results from all clusters.
+										Displayed as a heatmap, cells with a similarity of 1 (in <font color="red">red</font>) are always assigned to the same cluster, while <font color="blue">blue</font> cells show a similarity of 0. The more defined its red diagonal structure, the more consistent clustering is.</p>
 									
 									<div class="box">
                                         <span class="image fit"><img src="images/consensus_difK.png" id="consensus_k" /></span>
-                                        <p>Figure 11: .</p>
+										<p>Figure 11: Consensus matrix for a range of <em>k</em> on <code>SC3</code>; A)<em>k</em>=3, B)<em>k</em>=4, C)<em>k</em>=7, D)<em>k</em>=9. This square matrix represents the similarity of cells as heatmap with similarity=1 in <font color="red">red</font> and no similarity in <font color="blue">blue</font>.
+											As shown on the top and left sides, this consensus matrix is clustered by hierarchical clustering, with each cluster labelled by its own colour.</p>
                                     </div>
-									<p>From that range of four different cluster numbers we chose to work with k=4 as an in-between compromise of a high enough silhouette and biological feasibility (this will be discussed further in <a href="discussion.html">section 6</a>).
-										The clusters obtained from SC3 can then be mapped on the t-SNE and UMAP spaces to visualize how well defined they appear.
-										For comparison sake, on <a href="#spaces_k">Figure 12</a> both k=4 and k=9 are plotted on t-SNE and UMAP spaces.</p>
+									<p>From that range of four different cluster numbers we chose to work with <em>k</em>=4 as an in-between compromise of a high enough silhouette and biological feasibility (this will be discussed further in <a href="discussion.html">section 6</a>).
+										The clusters obtained from <code>SC3</code> can then be mapped on the t-SNE and UMAP spaces to visualize how well defined they appear.
+										For comparison sake, on <a href="#spaces_k">Figure 12</a> both <em>k</em>=4 and <em>k</em>=9 are plotted on t-SNE and UMAP spaces.</p>
 									<div class="box">
 										<span class="image fit"><img src="images/spaces_k.png" id="spaces_k" /></span>
-										<p>Figure 12: .</p>
+										<p>Figure 12: Visualisation of the clusters obtained in the DR spaces. A) and B) show the clusters obtained from <code>SC3</code> on the t-SNE dimensions, with a <em>k</em> of 4 and 9 respectively, whereas C) and D) are instead plotted on the UMAP space. Each point represents a cell, with the axis showing their coordinates along the dimensionally reduced spaces.</p>
 									</div>
-									<p>From a first look, it appears that both visualisations perform at a similar level; the spaces do not really separate the clusters at low k but the results improve when using a higher number of clusters.
+									<p>From a first look, it appears that both visualisations perform at a similar level; the spaces do not really separate the clusters at low <em>k</em> but the results improve when using a higher number of clusters.
 										Taking this into account, during our testing UMAP still proved to be more consistent due to the inherent stochasticity of t-SNE. In <a href="discussion.html">Section 6</a> this topic will be further discussed.</p>
 									
-									<p>Finally, standalone k-means clustering was performed on the reduced dimensions calculated in <a href="#vis">Visualisation</a>.
+									<p>To compare the clustering results, standalone <em>k-means</em> clustering was performed on the reduced dimensions calculated in <a href="#vis">Visualisation</a>.
 										When plotted on their DR space the clusters obtained did appear to divide the data more evenly.
-										A comparison with k=4 of the SC3 and UMAP+k-means clusters is shown plotted on the UMAP dimensions in <a href="#interact_umap">Figure 13</a>.
-										In there, it is apparent how the UMAP space, albeit showing the most promise, is still not ideal for visualising the SC3 clusters</p>	
+										A comparison with <em>k</em>=4 of the <code>SC3</code> and UMAP+<em>Kmeans</em> clusters is shown plotted on the UMAP dimensions in <a href="#interact_umap">Figure 13</a>.
+										In there it is apparent how the UMAP space, albeit showing the most promise, is still not ideal for visualising the <code>SC3</code> clusters, since at low <em>k</em> there is little overlapping between both sets of clusters.</em></p>	
 									<div class="box">
 										<span class="image fit"><iframe width="1000" height="800" frameborder="0" scrolling="no" src="//plot.ly/~FerranC96/17.embed"></iframe></span>
-										<p>Figure 13: .</p>
+										<p>Figure 13: Interactive plot showing the clusters obtained from <code>SC3</code> and standalone <em>k-means</em>, with <em>k</em>=4, plotted onto the UMAP space. Each point represents a cell, with the axis showing their coordinates along the dimensionally reduced spaces. Colours denote the <code>SC3</code> clusters, while shapes represent the clusters obtained via standalone <em>k-means</em> on the UMAP dimensions.</p>
 									</div>
-									<p>Comparing the SC3 consensus plots in <a href="#consensus_k">Figure 11</a> with those using the UMAP+k-means clusters (see <a href="#consensus_umap">Figure 14</a>) 
-										shows the same phenomena observed on <a href="#spaces_k">Figure 12</a>, in where the higher k is the more convergent both methodologies will be, represented in <a href="#consensus_umap">Figure 14</a> as more overlapping with the UMAP+kmeans clusters.</p>
+									<p>Finally, comparing the <code>SC3</code> consensus plots in <a href="#consensus_k">Figure 11</a> with those using the UMAP+<em>Kmeans</em> clusters (see <a href="#consensus_umap">Figure 14</a>) 
+										shows the same phenomena observed above and on <a href="#spaces_k">Figure 12</a>, in where the higher k is the more convergent both methodologies will be, represented in <a href="#consensus_umap">Figure 14</a> as more overlapping with the UMAP+<em>Kmeans</em> clusters along the top of the consensus matrix.</p>
 									<div class="box">
 										<span class="image fit"><img src="images/consensus_umap.png" id="consensus_umap" /></span>
-										<p>Figure 14: .</p>
+										<p>Figure 14: Consensus matrix comparing the clusters obtained from <code>SC3</code> and standalone <em>k-means</em> on the UMAP space (top of the matrix). On A) a <em>k</em>=4 is assumed, whereas on B) <em>k</em>=9.</p>
 									</div>
 									<hr class="major" />
 									<h2 id="bio">5.3- Biological Analysis</h2>
-									<p>Part of SC3’s pipeline is a marker plot, in which a DE assay is performed between the clusters. Then the genes found to be differentially expressed are highlighted and the clusters they are associated to are shown.
-										In our case an area under the ROC curve (AROC) of 0.85 and a p-value of 0.01 were chosen as parameters for a marker analysis on SC3’s k=4 clusters. </p>
+									<p>Part of <code>SC3</code>’s pipeline is a marker plot, in which a DE assay is performed between the clusters. Then the genes found to be differentially expressed are highlighted and the clusters they are associated to are shown.
+										In our case an area under the ROC curve (AROC) of 0.85 and a p-value of 0.01 were chosen as parameters for a marker analysis on <code>SC3</code>’s <em>k</em>=4 clusters. </p>
 									<p>The resulting plot can be seen in <a href="#markers_plot">Figure 15</a>, where of the four clusters statistically significant DE was found for a total of 5 genes, three corresponding to cluster 1 and the other two to cluster 4.
-										As will be discussed in detail in the <a href="discussion.html">following section</a>, some of the markers found can be associated with cellular differentiation and proliferation.</p>
+										As will be discussed in detail in the <a href="discussion.html">following section</a>, some of the markers found can be associated with cellular differentiation and proliferation.
+										In <a href="supplementary.html">Supplementary Material</a>, the same assay was performed with a <em>k</em> of 9 and their results are also shown on a marker plot.</p>
 									<p>The following is a list of the markers associated with their respective clusters:</p>
 									<ul> 
 										<li>Cluster 1: Shows increased expression for Gm12918 (a pseudogene), Serpinf1 (serine peptidase inhibitor F1) and Rps14 (ribosomal protein S14). A similar, albeit subtler, expression pattern can be detected in cluster 2.</li>
@@ -136,12 +141,12 @@
 									</ul>				
 									<div class="box">
 										<span class="image fit"><img src="images/markers_k4_aroc85_pval01.png" id="markers_plot" /></iframe></span>
-										<p>Figure 15: .</p>
+										<p>Figure 15: Graph showing the expression of 6 markers identified to be representative of 2 (specified by colour on the left side) of the 4 clusters found by <code>SC3</code> (on top). With the matrix itself coloured as a heatmap, it was obtained with a p-value of 0.01 and an area under the ROC curve of 0.85.</p>
 									</div>
 									<p><a href= "http://www.informatics.jax.org/marker/MGI:108080" >Serpinf1</a> has already been described as expressed in the cardiovascular system. It has been associated with inhibiting proliferation in epithelial cells and promoting neurogenesis.
-										<br />A previous study also showed its responsible for antiangiogenic effects. <a href= "http://www.informatics.jax.org/marker/MGI:98107">Rps14</a> is a ribosomal protein found majorly in hematopoietic cells that has been associated in erythrocyte differentiation and is also expressed in mitochondria.</p>
-									<p><a href="http://www.informatics.jax.org/marker/MGI:2158419">AY036118</a> has previously been annotated with GO terms for cell population proliferation. It has been reported as expressed in the heart in cell proliferation (Tulin et al., 2002) and embryonic development (Ujhelly et al., 2015) experiments.
-										<br /><a href="http://www.informatics.jax.org/marker/MGI:2445220">Dcaf1</a>, more known in humans as a part of the CRL4 complex that plays a central role in HIV infection, it has been associated in mice with B cell differentiation and with cell-cycle and telomerase regulation.</p>
+										A previous study also showed its responsible for antiangiogenic effects. <a href= "http://www.informatics.jax.org/marker/MGI:98107">Rps14</a> is a ribosomal protein found majorly in hematopoietic cells that has been associated in erythrocyte differentiation and is also expressed in mitochondria.</p>
+									<p><a href="http://www.informatics.jax.org/marker/MGI:2158419">AY036118</a> has previously been annotated with GO terms for cell population proliferation. It has been reported as expressed in the heart in cell proliferation (<a href="refs.html#18">Tulin et al., 2002</a>) and embryonic development (<a href="refs.html#20">Ujhelly et al., 2015</a>) experiments.
+										<a href="http://www.informatics.jax.org/marker/MGI:2445220">Dcaf1</a>, more known in humans as a part of the CRL4 complex that plays a central role in HIV infection, it has been associated in mice with B cell differentiation and with cell-cycle and telomerase regulation.</p>
 									<hr class="major" />
 									<p align="center"><a href="pre-process.html" class="button primary">Back</a> <a href="#" class="button icon fa-arrow-circle-up">Go to top</a> <a href="discussion.html" class="button primary">Next</a></p>
 
