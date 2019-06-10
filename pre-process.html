@@ -35,17 +35,17 @@
                                     <h2 id="qc">4.1- QC and filtering</h2>
                                     <p>To ensure that technical effects and other artefacts introduced during the sequencing do not distort our analyses, low-quality cells must be removed from the dataset in a filtering-based Quality Control (QC) approach.</p>
                                     <p>Before starting with the QC however, 40997 rows where removed from the data as they represented transcripts without expression in any of the cells (that is, a total count sum of 0).
-                                        With the aim to facilitate readability, the remaining row names where substituted by the gene symbol associated to their respective transcript <em>Ensbml</em> identifiers (with the ID appended at the end in case of entries sharing the same symbol). This annotation was performed using the <em>biomaRt</em> package (<a href="#">Drost and Paszkowski, 2017</a>). </p>
-                                    <p><em>scater</em> provided the quality control metrics used to filter the data, which was performed first using <a href="#cell">cell-based metrics</a> and then moving onto <a href="#gene">gene-based filtering</a>.</p>
+                                        With the aim to facilitate readability, the remaining row names where substituted by the gene symbol associated to their respective transcript <em>Ensbml</em> identifiers (with the ID appended at the end in case of entries sharing the same symbol). This annotation was performed using the <code>biomaRt</code> package (<a href="#">Drost and Paszkowski, 2017</a>). </p>
+                                    <p><code>scater</code> provided the quality control metrics used to filter the data, which was performed first using <a href="#cell">cell-based metrics</a> and then moving onto <a href="#gene">gene-based filtering</a>.</p>
                                     <h3 id="cell">Cell-based metrics</h3>
-                                    <p>During cell-based QC, cells are removed based on total number of reads detected (also known as library size), how many unique genes they map to (expressed features), and the ratio of ERCC spike-ins. The removal of outliers and cells with extremely low library sizes or total number of detected genes is essential for a posterior gene-based QC and robust overall QC.</p>
+                                    <p>During cell-based QC, cells are removed based on total number of reads detected (also known as library size), how many unique genes they map to (expressed features), and the ratio of <em>ERCC</em> spike-ins. The removal of outliers and cells with extremely low library sizes or total number of detected genes is essential for a posterior gene-based QC and robust overall QC.</p>
                                     <p>As shown on <a href="#cell_filtering">Figure 4:A</a> cells with library sizes below 0.2e6 counts where discarded from the data set, while in <a href="#cell_filtering">Figure 4:B</a> we have the total number of detected genes and the chosen threshold at 2300 unique features per cell. 
                                         The range of numbers seen on both plots indicates that the sequencing was performed a moderately low depth and absence of any major deviations from the normal distribution in <a href="#cell_filtering">Figure 4:B</a> might suggest that during the initial pre-processing the data could have already been filtered before so as to select the relevant population I was to study.</p>
                                     <div class="box">
                                             <span class="image fit"><img src="images/cell_filtering.png" id="cell_filtering" /></span>
-                                            <p>Figure 4: XXXXX. A) fdfdfd. B) gfffgf.</p>
+                                            <p>Figure 4: Cellular metrics used in Quality Control. A) Histogram depicting the library size in total counts of all cells. Filtering threshold (in red) set at  < 0.2e6. B) Histogram depicting the number of detected genes (features) in each cell. Filtering threshold (in red) set at < 2300 features. </p>
                                             </div>
-                                    <p>The last cellular metric to be accounted for is the proportion of ERCC spike-ins over the total reads mapped to a cell, as higher ratios of ERCC might be an indicative of cellular lysis or RNA degradation 
+                                    <p>The last cellular metric to be accounted for is the proportion of <em>ERCC</em> spike-ins over the total reads mapped to a cell, as higher ratios of <em>ERCC</em> might be an indicative of cellular lysis or RNA degradation 
                                         (another use for the spike-ins can be to infer the average cell size, but since our dataset contains a quite homogenous population this use was not taken advantage of).  
                                         Thus, a standard 20% cut out ratio was selected, removing any cells that had more than 20% spike-in content.</p>
                                     <p>In most reference pipelines, the presence of mitochondrial genes is also generally used as a quality measure of cells, since high concentrations of mitochondrial markers are associated with damaged cells. 
@@ -57,13 +57,13 @@
                                             <div class="col-6 col-12-small">
                                                 <div class="box">
                                                 <span class="image fit"><img src="images/VennDiag_CellFiltering.png" id="venn" /></span>
-                                                <p>Figure 5: Venn diagram. .</p>
+                                                <p>Figure 5: Venn diagram comparing manual (green) and automatic (blue) filtering. Manual approaches filters 21 more cells in addition to those also selected by automatic outlier detection in PCA.</p>
                                                 </div>
                                             </div>
                                             <div class="col-6 col-12-small">
                                                 <div class="box">
                                                 <span class="image fit"><img src="images/ManualAuto_CellFiltering.png" id="man_auto" /></span>
-                                                <p>Figure 6: Comparison of manual and automatic filtering approaches.  .</p>
+                                                <p>Figure 6: PCA plot comparing both manual and automatic filtering. On the first two PCA dimensions each cell is represented as a point, with colour denoting if they pass the automatic filtering (outliers=<font color="orange">orange</font>) and shape representing the manual filtering (▲=pass). Size of each point is dependant on the number of genes detected in each cell.</p>
                                                 </div>
                                             </div>
                                     </div>
@@ -71,7 +71,7 @@
                                     <p>Once low-quality cells have been discarded, we can start the gene-based filtering. 
                                         Analysis of the most highly expressed genes was performed and was used to check if the results were those expected biologically, with ribosomal and mitochondrial associated genes being those with the highest expressions.</p>
                                     <p>In our data the top 50 genes account for over 40% of the total reads, and as can be shown on <a href="#highest">Figure 7</a>, at the top of the list we have a gene corresponding to the 18S ribosomal RNA, with some mitochondrial genes as well some constitutively expressed proteins. 
-                                        A high number of spike-ins amongst this list might suggest that the spike-in concentration added during the experiment might be excessive and in our case there does seem to be an excess (with half of the top 8 corresponding to ERCC spikes).  
+                                        A high number of spike-ins amongst this list might suggest that the spike-in concentration added during the experiment might be excessive and in our case there does seem to be an excess (with half of the top 8 corresponding to <em>ERCC</em> spikes).  
                                         That such a small number of genes account for almost half of the counts is possibly yet another indicative that the sequencing was not performed at high depths.</p>                                   
                                     <div class="box">
                                         <span class="image fit"><iframe width="1000" height="600" frameborder="0" scrolling="no" src="https://plot.ly/~FerranC96/15.embed?logo=true" id="highest"></iframe></span>
@@ -85,11 +85,11 @@
                                     <hr class="major" />
                                     <h2 id="norm">4.2- Normalisation</h2>
                                     <p>As different cells have different capture efficiencies and the sequencing depth is not completely homogenous throughout the sample, normalisation methods are necessary to palliate these cell-specific biases. 
-                                        To that end I performed a CPM-based (Counts Per Million) method from <em>scran</em> that has been specifically tailored to deal with the sparse expression matrices characteristic of scRNAseq experiments. </p>
-                                    <p>Before computing the size factors necessary for the normalisation, I performed a preliminary clustering step (based on hierarchical clustering) to palliate the consequences of the DE assumption central to <em>scran</em>’s normalisation method. 
+                                        To that end I performed a CPM-based (Counts Per Million) method from <code>scran</code> that has been specifically tailored to deal with the sparse expression matrices characteristic of scRNAseq experiments. </p>
+                                    <p>Before computing the size factors necessary for the normalisation, I performed a preliminary clustering step (based on hierarchical clustering) to palliate the consequences of the DE assumption central to <code>scran</code>’s normalisation method. 
                                         This increases robustness towards heterogeneity, and now size factors for both endogenous genes and spike-ins can be calculated before normalising the data and storing it as log-transformed normalised counts.</p>
-                                    <p>Another confounding effect that remains to be removed are the technical effects, which can alter the observed expression values. To model this technical noise the ERCC spike in set was used, as its expression should remain relatively constant across cells
-                                        and thus if there is no biological variability, any variance observed should then be caused by technical effects. This modelling consisted of variance fitting and was performed using the <em>trendVar()</em> and <em>decomposeVar()</em> functions from <em>scran</em>>.</p>
+                                    <p>Another confounding effect that remains to be removed are the technical effects, which can alter the observed expression values. To model this technical noise the <em>ERCC</em> spike in set was used, as its expression should remain relatively constant across cells
+                                        and thus if there is no biological variability, any variance observed should then be caused by technical effects. This modelling consisted of variance fitting and was performed using the <code>trendVar()</code> and <code>decomposeVar()</code> functions from <code>scran</code>.</p>
       
 									<hr class="major" />
 									<p align="center"><a href="intro.html" class="button primary">Back</a> <a href="#" class="button icon fa-arrow-circle-up">Go to top</a> <a href="analysis.html" class="button primary">Next</a></p>

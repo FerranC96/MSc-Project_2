@@ -37,16 +37,17 @@
                                     <ul>
                                     <ol>     
                                         <li>Quality control and filtering to eliminate outliers and reduce the dimensions of the expression matrix by discarding both cells and transcript IDs.</li>
-                                        <li>Normalisation and denoising using ERCC spike-ins.</li>
+                                        <li>Normalisation and denoising using <em>ERCC</em> spike-ins.</li>
                                         <li>Dimensionality reduction via Principal Component Analysis (PCA), t-Distributed Stochastic Neighbor Embedding (t-SNE) and Uniform Manifold Approximation and Projection (UMAP).</li>
-                                        <li>Unsupervised clustering using k-means in the above dimensions and within the SC3 package for R (<a href="#">Kiselev et al., 2017</a>).</li>
+                                        <li>Unsupervised clustering using <em>k-means</em> in the above dimensions and within the <code>SC3</code> package for R (<a href="#">Kiselev et al., 2017</a>).</li>
                                         <li>Biological analysis of genes found to be differentially expressed in the clusters</li>
                                     </ol>
                                     </ul>
                                     <p>It is important to note that several methodologies where assessed in some of the steps outlined above and their comparisons can be found on their respective sections.</p>
                                     <div class="box">
                                             <span class="image fit"><img src="images/Outline.png" id="pipeline" /></span>
-                                            <p>Figure 3: Analysis pipeline. Consisting of a stage for pre-processing and another encompasing visualisation and clustering, the different steps performed in this analysis are showed from top (starting with the initial data) to bottom (ending with the biological analysis). <em>scran</em>, R package; CPM, Counts per million; PCA, Principal Component Analysis; tSNE, t-Distributed Stochastic Neighbor Embedding; UMAP, Uniform Manifold Approximation and Projection; SC3, R package; DE, Differential expression.</p>
+                                            <p>Figure 3: Analysis pipeline. Consisting of a stage for pre-processing and another encompassing visualisation and clustering, the different steps performed in this analysis are showed from top (starting with the initial data) to bottom (ending with the biological analysis).
+												<code>scran</code>, R package; CPM, Counts Per Million; PCA, Principal Component Analysis; tSNE, t-Distributed Stochastic Neighbour Embedding; UMAP, Uniform Manifold Approximation and Projection; <code>SC3</code>, R package; DE, Differential expression.</p>
                                             </div>
 									
 									<hr class="major" />
