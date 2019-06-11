@@ -42,7 +42,7 @@
                                             <div class="col-6 col-12-small">
 												<p>Principal Component Analysis, or PCA, was the first approach taken. It is a transformation-based approach that calculates new dimensions or components to try and capture the maximum amount of variance possible in the original high-dimensional space.</p>
 												<p>Making use of the technical variances calculated in the <a href="pre-process.html">previous section</a> we can remove that random noise by performing PCA and <code>scran</code>’s <code>denoisePCA()</code> function. </p>
-												<p>A plot of our cells in the PCA space is shown on <a href="#pca_plot">Figure 8</a>. It is immediately noticeable that no apparent division of cells appears, with all cells clustered together as one mass, 
+												<p>A plot of our cells in the PCA space is shown in <a href="#pca_plot">Figure 8</a>. It is immediately noticeable that no apparent division of cells appears, with all cells clustered together as one mass, 
 													and that PCA does not render very informative results for the first two components explain only 3% and 1% of the total variance. The reasons this might be happening will be discussed in the <a href="discussion.html">following section</a>,
 													but PCA has already been described as being a less than ideal DR approach for sparse scRNAseq data.</p>
                                             </div>
@@ -59,7 +59,7 @@
                                             <div class="col-6 col-12-small">
 												<p>t-Distributed Stochastic Neighbour Embedding, also known as t-SNE, is a newer DR approach described in <a href="refs.html#8">Maaten and Hinton, 2008</a>. It maps high dimensional data to 2 dimensions by performing random walks on neighbourhood graphs and can deal better results in more diverse and higher dimensional cell populations.</p>
 												<p>To make use of the denoising performed above we calculate its reduced dimensions from the PCA data. A stochastic process by definition, the resulting graphs all showed different topologies even if the perplexity value was kept constant.</p>
-												<p>On <a href="#tsne_plot">Figure 9</a> one such plot is given with a perplexity value of 15 and no random seed predefined. I settled at perplexity=15 since that seemed to produce the most consistent topologies while still avoiding the tendency to crowd points together at the centre of the map.</p>
+												<p>In <a href="#tsne_plot">Figure 9</a> one such plot is given with a perplexity value of 15 and no random seed predefined. I settled at perplexity=15 since that seemed to produce the most consistent topologies while still avoiding the tendency to crowd points together at the centre of the map.</p>
                                             </div>
                                             <div class="col-6 col-12-small">
                                                 <div class="box">
@@ -94,7 +94,7 @@
 									The final <code>SCE</code> object containing all data used during clustering can be found on <a href="supplementary.html">Supplementary Material</a>.</p>
                                     <p>To get an initial estimate on the number of clusters in our data we relied on <code>SC3</code>, which estimates a total number of 9 clusters. 
 										However, since our population should be quite homogenous and taking into account the fact that <code>SC3</code> has a tendency to overestimate <em>k</em>, further analysis where performed with a range of <em>k</em> from 2 to 9. 
-										On <a href="#consensus_k">Figure 11</a> consensus plots obtained from <em>k</em>=3,4,7,9 are shown.</p>
+										In <a href="#consensus_k">Figure 11</a> consensus plots obtained from <em>k</em>=3,4,7,9 are shown.</p>
 									<p>A consensus plot is a square matrix representing the similarity of cells by averaging the clustering results from all clusters.
 										Displayed as a heatmap, cells with a similarity of 1 (in <font color="red">red</font>) are always assigned to the same cluster, while <font color="blue">blue</font> cells show a similarity of 0. The more defined its red diagonal structure, the more consistent clustering is.</p>
 									
@@ -105,7 +105,7 @@
                                     </div>
 									<p>From that range of four different cluster numbers we chose to work with <em>k</em>=4 as an in-between compromise of a high enough silhouette and biological feasibility (this will be discussed further in <a href="discussion.html">section 6</a>).
 										The clusters obtained from <code>SC3</code> can then be mapped on the t-SNE and UMAP spaces to visualize how well defined they appear.
-										For comparison sake, on <a href="#spaces_k">Figure 12</a> both <em>k</em>=4 and <em>k</em>=9 are plotted on t-SNE and UMAP spaces.</p>
+										For comparison sake, in <a href="#spaces_k">Figure 12</a> both <em>k</em>=4 and <em>k</em>=9 are plotted on t-SNE and UMAP spaces.</p>
 									<div class="box">
 										<span class="image fit"><img src="images/spaces_k.png" id="spaces_k" /></span>
 										<p>Figure 12: Visualisation of the clusters obtained in the DR spaces. A) and B) show the clusters obtained from <code>SC3</code> on the t-SNE dimensions, with a <em>k</em> of 4 and 9 respectively, whereas C) and D) are instead plotted on the UMAP space. Each point represents a cell, with the axis showing their coordinates along the dimensionally reduced spaces.</p>

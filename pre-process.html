@@ -39,7 +39,7 @@
                                     <p><code>scater</code> provided the quality control metrics used to filter the data, which was performed first using <a href="#cell">cell-based metrics</a> and then moving onto <a href="#gene">gene-based filtering</a>.</p>
                                     <h3 id="cell">Cell-based metrics</h3>
                                     <p>During cell-based QC, cells are removed based on total number of reads detected (also known as library size), how many unique genes they map to (expressed features), and the ratio of <em>ERCC</em> spike-ins. The removal of outliers and cells with extremely low library sizes or total number of detected genes is essential for a posterior gene-based QC and robust overall QC.</p>
-                                    <p>As shown on <a href="#cell_filtering">Figure 4:A</a> cells with library sizes below 0.2e6 counts where discarded from the data set, while in <a href="#cell_filtering">Figure 4:B</a> we have the total number of detected genes and the chosen threshold at 2300 unique features per cell. 
+                                    <p>As shown in <a href="#cell_filtering">Figure 4:A</a> cells with library sizes below 0.2e6 counts where discarded from the data set, while in <a href="#cell_filtering">Figure 4:B</a> we have the total number of detected genes and the chosen threshold at 2300 unique features per cell. 
                                         The range of numbers seen on both plots indicates that the sequencing was performed a moderately low depth and absence of any major deviations from the normal distribution in <a href="#cell_filtering">Figure 4:B</a> might suggest that during the initial pre-processing the data could have already been filtered before so as to select the relevant population I was to study.</p>
                                     <div class="box">
                                             <span class="image fit"><img src="images/cell_filtering.png" id="cell_filtering" /></span>
@@ -52,7 +52,7 @@
                                         In our case however, we have to keep in mind that our data is from cardiac tissue, and as cardiomyocytes present extremely high concentrations of mitochondria, so they would skew an analysis based on this metric.</p>
                                     <p>Finally, an outlier detection was also performed using as a threshold median absolute deviation of 3 units for the metrics shown above.
                                         This automatic filtering however was quite lenient and only selected 8 cells to be filtered, whereas using the more stringent manual methods a total of 29 cells (out of the original 416) where removed.
-                                        A Venn diagram comparing the performance of both approaches is shown on <a href="#venn">Figure 5</a>, and on <a href="#man_auto">Figure 6</a> the cells are plotted on a PCA graph, with the colour and shape of each cell representing the final filtering criteria for the manual and automatic approaches respectively.</p>
+                                        A Venn diagram comparing the performance of both approaches is shown in <a href="#venn">Figure 5</a>, and in <a href="#man_auto">Figure 6</a> the cells are plotted on a PCA graph, with the colour and shape of each cell representing the final filtering criteria for the manual and automatic approaches respectively.</p>
                                     <div class="row">
                                             <div class="col-6 col-12-small">
                                                 <div class="box">
@@ -70,7 +70,7 @@
                                     <h3 id="gene">Gene-based metrics</h3>
                                     <p>Once low-quality cells have been discarded, we can start the gene-based filtering. 
                                         Analysis of the most highly expressed genes was performed and was used to check if the results were those expected biologically, with ribosomal and mitochondrial associated genes being those with the highest expressions.</p>
-                                    <p>In our data the top 50 genes account for over 40% of the total reads, and as can be shown on <a href="#highest">Figure 7</a>, at the top of the list we have a gene corresponding to the 18S ribosomal RNA, with some mitochondrial genes as well some constitutively expressed proteins. 
+                                    <p>In our data the top 50 genes account for over 40% of the total reads, and as can be shown in <a href="#highest">Figure 7</a>, at the top of the list we have a gene corresponding to the 18S ribosomal RNA, with some mitochondrial genes as well some constitutively expressed proteins. 
                                         A high number of spike-ins amongst this list might suggest that the spike-in concentration added during the experiment might be excessive and in our case there does seem to be an excess (with half of the top 8 corresponding to <em>ERCC</em> spikes).  
                                         That such a small number of genes account for almost half of the counts is possibly yet another indicative that the sequencing was not performed at high depths.</p>                                   
                                     <div class="box">
